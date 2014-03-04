@@ -51,14 +51,16 @@ public class MainActivity extends Activity {
 	private RssFeed feed;
 	boolean btEnabled = true;
 
+	// private String sampleURL2 =
+	// "http://www.balluche.fr/html2rss.php?url=http://balatarin.com";
 	private String sampleURL1 = "http://en.balatarin.com/feed";
-	private String sampleURL2 = "http://www.engadget.com/rss.xml";
+	private String sampleURL2 = "http://moodilabs.wordpress.com/?feed=rss";
 	private String selectedURL = sampleURL2;
 
 	private Spinner deviceSpinner;
 	private ProgressDialog progressDialog;
 	private static String filePath = Environment.getExternalStorageDirectory()
-			.getAbsolutePath() + "/TestDir/downloadedFile.xml";;
+			.getAbsolutePath() + "/Pass/downloadedFile.xml";;
 	private static File rssFile;
 
 	@Override
@@ -68,27 +70,20 @@ public class MainActivity extends Activity {
 
 		Button source = (Button) findViewById(R.id.sourceButton);
 		source.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-
 				if (selectedURL.equals(sampleURL1))
 					selectedURL = sampleURL2;
 				else
 					selectedURL = sampleURL1;
-
 				fetchRSS();
-
 			}
-
 		});
+
 		Button refresh = (Button) findViewById(R.id.refreshButton);
-
 		refresh.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-
 				onResume();
 			}
 		});
@@ -97,7 +92,6 @@ public class MainActivity extends Activity {
 				.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
 			// Device does not support Bluetooth
-
 			Log.e(loggerTag, "NO BLUETOOTH HARDWARE!");
 			btEnabled = false;
 		}
@@ -115,12 +109,10 @@ public class MainActivity extends Activity {
 			finish();
 
 		feed = fetchRSS();
-
 		while (!dataUpdated) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -131,10 +123,8 @@ public class MainActivity extends Activity {
 				switch (message.what) {
 				case MessageType.READY_FOR_DATA: {
 					// TODO
-
 					byte[] fileBytes;
 					try {
-
 						fileBytes = Files.toByteArray(rssFile);
 
 						Message message2 = new Message();
@@ -143,7 +133,6 @@ public class MainActivity extends Activity {
 								.sendMessage(message2);
 
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						Log.e(loggerTag, "File not found");
 						e.printStackTrace();
 					}
@@ -200,8 +189,7 @@ public class MainActivity extends Activity {
 						progressDialog = null;
 					}
 					File SDCardRoot = new File(
-							Environment.getExternalStorageDirectory(),
-							"TestDir");
+							Environment.getExternalStorageDirectory(), "Pass");
 					SDCardRoot.mkdirs();
 					String filename = "downloadedFile.xml";
 					Log.i("Local filename:", "" + filename);
@@ -211,33 +199,17 @@ public class MainActivity extends Activity {
 							file.createNewFile();
 						}
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					// TODO
 					try {
 						Files.write((byte[]) message.obj, rssFile);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						Log.d(loggerTag, "Write failed");
 					}
 					rssFile = file;
 					onResume();
-
-					/*
-					 * FileOutputStream fileOutput = new FileOutputStream(
-					 * file); int downloadedSize = 0; byte[] buffer = (byte[])
-					 * message.obj; new byte[1024]; int bufferLength = 0; while
-					 * ((bufferLength = inputStream.read(buffer)) > 0) {
-					 * fileOutput.write(buffer, 0, buffer.length);
-					 * downloadedSize += bufferLength; Log.i("Progress:",
-					 * "downloadedSize:" + downloadedSize + "totalSize:" +
-					 * totalSize); } fileOutput.close();
-					 * 
-					 * rssFile = file; if (downloadedSize == totalSize) filepath
-					 * = file.getPath();
-					 */break;
+					break;
 				}
 
 				case MessageType.DIGEST_DID_NOT_MATCH: {
@@ -349,24 +321,17 @@ public class MainActivity extends Activity {
 		updateFeed();
 		ListView lv = (ListView) findViewById(R.id.listView1);
 
-		
 		if (dataUpdated) {
 			lv.setVisibility(View.VISIBLE);
 			tv.setVisibility(View.INVISIBLE);
-				
-			
 			final ArrayList<RssItem> rssItems = feed.getRssItems();
 			for (RssItem rssItem : rssItems) {
 				rssItemsTitle.add(rssItem.getTitle());
-
 			}
-
-		
 			lv.setAdapter(new ArrayAdapter<String>(this,
 					android.R.layout.simple_list_item_1, rssItemsTitle));
 
 			OnItemClickListener listClickListener = new OnItemClickListener() {
-
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View v,
 						int position, long arg3) {
@@ -375,18 +340,13 @@ public class MainActivity extends Activity {
 							DetailActivity.class);
 					detailIntent.putExtra("content", rssItems.get(position)
 							.getContent());
-
 					startActivity(detailIntent);
 				}
-
 			};
 			lv.setOnItemClickListener(listClickListener);
-		}
-		
-		else{
+		} else {
 			lv.setVisibility(View.INVISIBLE);
 			tv.setVisibility(View.VISIBLE);
-			
 		}
 	}
 
@@ -397,12 +357,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void run() {
 				try {
-
 					new Thread(new Runnable() {
-
 						@Override
 						public void run() {
-
 							String filepath = Environment
 									.getExternalStorageDirectory()
 									.getAbsolutePath();
@@ -415,8 +372,7 @@ public class MainActivity extends Activity {
 								urlConnection.connect();
 
 								File SDCardRoot = new File(Environment
-										.getExternalStorageDirectory(),
-										"TestDir");
+										.getExternalStorageDirectory(), "Pass");
 								SDCardRoot.mkdirs();
 								String filename = "downloadedFile.xml";
 								Log.i("Local filename:", "" + filename);
@@ -473,16 +429,17 @@ public class MainActivity extends Activity {
 		try {
 			feed = RssReader.read(new URL("file://" + filePath));
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+			dataUpdated = false;
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+			dataUpdated = false;
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			dataUpdated = false;
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -521,5 +478,4 @@ public class MainActivity extends Activity {
 		String spinnerText;
 		String value;
 	}
-
 }

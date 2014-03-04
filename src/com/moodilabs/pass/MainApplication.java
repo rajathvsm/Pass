@@ -20,8 +20,6 @@ public class MainApplication extends Application {
     protected static ClientThread clientThread;
     protected static ServerThread serverThread;
     protected static ProgressData progressData = new ProgressData();
-    protected static final String RSS_FILE_NAME = "btimage.jpg";
-
  
 
     @Override

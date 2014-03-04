@@ -37,11 +37,13 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/deviceSpinner"
-        android:layout_alignRight="@+id/clientButton"
-        android:text="No data found" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="Please check internet access" />
 
     <Button
         android:id="@+id/sourceButton"
