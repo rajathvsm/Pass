@@ -1,6 +1,6 @@
 Pass
 ====
-This app was built to test how much I could accomplish within a day, although this did take more than a day to complete and put it up on the Google Play store. You can find the app at 
+This app was built to test how much I could accomplish within a day, although this did take more than a day to complete and put it up on the Google Play store. You can find the app at https://play.google.com/store/apps/details?id=com.moodilabs.pass
 
 I built this prototype RSS reader of my blog and can switch to popular and controversial Iranian site Balatarin.com's English blog. 
 
